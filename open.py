@@ -26,7 +26,7 @@ def load_data(filename):
             )
     return products
     
-def get_products(products):
+def view_products(products):
     product_list = []
      #TODO: gör en nummerlista med enumerate (att använda id kommer inte fungera i längden)
      
@@ -47,6 +47,6 @@ locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')
 while True:
     os.system('cls')
     products = load_data('db_products.csv')
-    print(get_products(products))
+    print(view_products(products))
 
     id = int(input("Vilken produkt vill du visa? "))
