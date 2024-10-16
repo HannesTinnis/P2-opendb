@@ -27,13 +27,21 @@ def load_data(filename):
     return products
 
 
+
 def view_products(products):
     product_list = []
     for product in products:
-        product_info = f"(#{product['id']}) {product['name']} \t {product['desc']} \t {locale.currency(product['price'], grouping=True)}"
+        product_info = f"(#{product['id']}) {product['name']} \t {product['desc']} \t {locale.currency(product['price'], grouping=True)} \t {product['quantity']}"
         product_list.append(product_info)
     
     return "\n".join(product_list)
+
+def save_products(filename, list):
+    with open (filename, mode='w', newline='') as file :
+        writer = csv.DictWriter(file, fieldnames=["id", "name", "desc", "price", "quantity"])
+        writer.writeheader()  # Write the header row
+        writer.writerows(list)  # Write the product data
+    print(f"Data successfully saved to {filename}")
 
 
 def add_product(products, name, desc, price, quantity):
@@ -88,7 +96,7 @@ while True:
     os.system('cls')  # Rensa konsolen (anpassa för ditt system om det behövs)
     print(view_products(products))  # Visa produkter vid start
 
-    print("\nVad vill du göra? \nL = Lägg till \nV = Visa \nT = Ta bort \nF = Ändra \nQ = Avsluta")
+    print("\nVad vill du göra? \nL = Lägg till \nV = Visa \nT = Ta bort \nF = Ändra \nS = Spara listan \nQ = Avsluta")
     choice = getwch().lower()
 
     if choice == 'l':  # Lägg till produkt
@@ -124,6 +132,9 @@ while True:
         # Visa de uppdaterade produkterna
         print("\nUppdaterade produkter:")
         print(view_products(products))
+    
+    elif choice == 's':
+        save_products('db_products.csv', products)
 
     elif choice == 'q':  # Avsluta programmet
         break
